@@ -1,0 +1,14 @@
+#pragma once
+
+#include "formatter.h"
+
+namespace ivy {
+	namespace utility {
+
+		template<typename... Args>
+		string_type format(const template_type& _template, Args&&... _args) noexcept;
+
+	} // namespace utility
+} // namespace ivy
+
+#include "../impl/utility/format.inl"

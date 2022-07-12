@@ -1,0 +1,10 @@
+# Target & Obj
+bin/
+int/
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
