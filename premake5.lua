@@ -1,36 +1,45 @@
 workspace "Ivy"
 	configurations { "Debug", "Release" }
-	platforms { "x64" }
+	platforms      { "x64" }
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 	filter "platforms:x64"
-		system "Windows"
+		system       "Windows"
         architecture "x86_64"
-	
-project "global"
-	kind "StaticLib"
-	language "C++"
-	location "global"
-	
-	files { "global/**.h", "global/**.cpp" }
-	
-	pchheader "global.h"
-	pchsource "global.cpp"
+		
+	startproject "sandbox"
 
 project "ivy"
-	kind "SharedLib"
-	language "C++"
-	location "ivy"
+	kind        "SharedLib"
+	language    "C++"
+	location    "ivy"
+	debugformat "c7"
 	
-	files { "ivy/**.h", "ivy/**.cpp" }
-
+	defines { "_DLL_BUILD" }
+	files { "ivy/**.h", "ivy/**.cpp", "ivy/**.inl" }
+	
+	includedirs { "$(ProjectDir)include/ivy", "$(ProjectDir)" }
+	
+	targetdir "$(SolutionDir)bin/$(Configuration)-$(Platform)"
+	objdir    "!$(SolutionDir)int/$(Configuration)-$(Platform)"
+	
+	pchheader "global.h"
+	pchsource "ivy/global.cpp"
+	forceincludes { "global.h" }
+	
 project "sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	location "sandbox"
+	kind        "ConsoleApp"
+	language    "C++"
+	location    "sandbox"
+	debugformat "c7"
 	
 	files { "sandbox/**.h", "sandbox/**.cpp" }
-
+	
+	links { "ivy" }
+	includedirs { "$(SolutionDir)ivy/include", "$(SolutionDir)ivy" }
+	
+	targetdir "$(SolutionDir)bin/$(Configuration)-$(Platform)"
+	objdir    "!$(SolutionDir)int/$(Configuration)-$(Platform)"
