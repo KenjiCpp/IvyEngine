@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../global.h"
+
 #include "math/scalar.h"
 #include "math/vector.h"
 
