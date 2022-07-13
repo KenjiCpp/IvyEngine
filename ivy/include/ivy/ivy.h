@@ -7,6 +7,7 @@
 
 #include "pattern/unique_id.h"
 
+#include "platform/clock.h"
 #include "platform/common.h"
 #include "platform/console.h"
 #include "platform/filesystem.h"
