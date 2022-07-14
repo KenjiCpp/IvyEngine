@@ -1287,5 +1287,31 @@ namespace ivy {
 			return string_formatter::format(null_capitalized ? "NULL" : "null");
 		}
 
+		b8 datetime_formatter::parse(const format_context& _ctx) noexcept {
+			formatter_2.zero  = true;
+			formatter_2.width = 2;
+			formatter_4.zero  = true;
+			formatter_4.width = 4;
+			return _ctx.begin() == _ctx.end();
+		}
+
+		string_type datetime_formatter::format(const datetime& _value) const noexcept {
+			string_type res = "";
+
+			res.append(formatter_4.format(_value.year()));
+			res.append('/');
+			res.append(formatter_2.format(_value.month()));
+			res.append('/');
+			res.append(formatter_2.format(_value.day()));
+			res.append('-');
+			res.append(formatter_2.format(_value.hour()));
+			res.append(':');
+			res.append(formatter_2.format(_value.minute()));
+			res.append(':');
+			res.append(formatter_2.format(_value.second()));
+
+			return res;
+		}
+
 	} // namespace utility
 } // namespace ivy

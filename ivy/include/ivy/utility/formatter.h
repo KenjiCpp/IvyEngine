@@ -7,6 +7,8 @@
 #include "set.h"
 #include "map.h"
 
+#include "platform/datetime.h"
+
 namespace ivy {
 	namespace utility {
 
@@ -145,6 +147,17 @@ namespace ivy {
 
 			string_type format(const nullable<T>& _value) const noexcept;
 		};
+
+		struct datetime_formatter {
+			signed_integer_formatter formatter_2;
+			signed_integer_formatter formatter_4;
+
+			IVY_API b8 parse(const format_context& _ctx) noexcept;
+
+			IVY_API string_type format(const datetime& _value) const noexcept;
+		};
+
+		template<> struct formatter<datetime> : datetime_formatter { };
 
 		template<typename T> struct formatter<nullable<T>> : nullable_formatter<T> { };
 

@@ -10,6 +10,7 @@
 #include "platform/clock.h"
 #include "platform/common.h"
 #include "platform/console.h"
+#include "platform/datetime.h"
 #include "platform/filesystem.h"
 #include "platform/memory.h"
 #include "platform/window.h"

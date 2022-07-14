@@ -1,5 +1,7 @@
 #include "utility/logger.h"
 
+#include "platform/datetime.h"
+
 namespace ivy {
 	namespace utility {
 
@@ -40,7 +42,7 @@ namespace ivy {
 		}
 
 		b8 console_logger::write(log_level _level, const string_type& _string) noexcept {
-			string_type str = format(">>> [{}] {}\n", _level, _string);
+			string_type str = format(">>> [{}] ({}) {}\n", _level, datetime(), _string);
 			platform::console::write(str.cstr(), _level);
 			return true;
 		}
