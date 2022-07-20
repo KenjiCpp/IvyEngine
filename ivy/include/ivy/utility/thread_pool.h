@@ -38,6 +38,9 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::thread_pool;
+
 } // namespace ivy
 
 #include "../impl/utility/thread_pool.inl"

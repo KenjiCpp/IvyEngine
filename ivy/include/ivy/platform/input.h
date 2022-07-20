@@ -92,6 +92,7 @@ namespace ivy {
 	} // namespace platform
 
 	using platform::keyboard_key;
+	using platform::mouse_button;
 
 	using platform::input_event;
 

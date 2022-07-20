@@ -112,6 +112,13 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::event;
+
+	using utility::event_context;
+	using utility::event_dispatcher;
+	using utility::event_listener;
+
 } // namespace ivy
 
 #include "../impl/utility/event.inl"

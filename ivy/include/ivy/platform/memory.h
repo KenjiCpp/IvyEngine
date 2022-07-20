@@ -41,4 +41,7 @@ namespace ivy {
 		};
 
 	} // namespace platform
+
+	using platform::memory;
+
 } // namespace ivy

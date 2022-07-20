@@ -14,6 +14,12 @@ namespace ivy {
 			vector(T _v) noexcept;
 			vector(T _x, T _y) noexcept;
 
+			template<typename U>
+			vector(const vector<U, 2>& _other) noexcept;
+			
+			template<typename U>
+			vector& operator=(const vector<U, 2>& _other) noexcept;
+
 			T x, y;
 		};
 
@@ -31,6 +37,12 @@ namespace ivy {
 			vector() noexcept;
 			vector(T _v) noexcept;
 			vector(T _x, T _y, T _z) noexcept;
+
+			template<typename U>
+			vector(const vector<U, 3>& _other) noexcept;
+
+			template<typename U>
+			vector& operator=(const vector<U, 3>& _other) noexcept;
 
 			T x, y, z;
 		};
@@ -50,6 +62,12 @@ namespace ivy {
 			vector(T _v) noexcept;
 			vector(T _x, T _y, T _z, T _w) noexcept;
 
+			template<typename U>
+			vector(const vector<U, 4>& _other) noexcept;
+
+			template<typename U>
+			vector& operator=(const vector<U, 4>& _other) noexcept;
+
 			T x, y, z, w;
 		};
 		
@@ -66,8 +84,66 @@ namespace ivy {
 		b8 operator==(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
 		template<typename T, typename U, u8 N>
 		b8 operator!=(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		b8 operator>(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		b8 operator<(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		b8 operator>=(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		b8 operator<=(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+
+		template<typename T, u8 N>
+		vector<result_type<negate, T>, N> operator-(const vector<T, N>& _v0) noexcept;
+
+		template<typename T, typename U, u8 N>
+		vector<result_type<plus, T, U>, N> operator+(T _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<plus, T, U>, N> operator+(const vector<T, N>& _v0, U _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<plus, T, U>, N> operator+(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+
+		template<typename T, typename U, u8 N>
+		vector<result_type<minus, T, U>, N> operator-(T _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<minus, T, U>, N> operator-(const vector<T, N>& _v0, U _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<minus, T, U>, N> operator-(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+
+		template<typename T, typename U, u8 N>
+		vector<result_type<multiplies, T, U>, N> operator*(T _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<multiplies, T, U>, N> operator*(const vector<T, N>& _v0, U _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<multiplies, T, U>, N> operator*(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
+
+		template<typename T, typename U, u8 N>
+		vector<result_type<divides, T, U>, N> operator/(T _v0, const vector<U, N>& _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<divides, T, U>, N> operator/(const vector<T, N>& _v0, U _v1) noexcept;
+		template<typename T, typename U, u8 N>
+		vector<result_type<divides, T, U>, N> operator/(const vector<T, N>& _v0, const vector<U, N>& _v1) noexcept;
 
 	} // namespace math
+
+	using math::vector2_b;
+	using math::vector2_i;
+	using math::vector2_u;
+	using math::vector2_f;
+	using math::vector2_d;
+
+	using math::vector3_b;
+	using math::vector3_i;
+	using math::vector3_u;
+	using math::vector3_f;
+	using math::vector3_d;
+
+	using math::vector4_b;
+	using math::vector4_i;
+	using math::vector4_u;
+	using math::vector4_f;
+	using math::vector4_d;
+
 } // namespace ivy
 
 #include "../impl/math/vector.inl"

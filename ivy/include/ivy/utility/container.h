@@ -17,6 +17,11 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::for_each;
+
+	using utility::container_traits;
+
 } // namespace ivy
 
 #include "../impl/utility/container.inl"

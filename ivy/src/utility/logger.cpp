@@ -47,6 +47,11 @@ namespace ivy {
 			return true;
 		}
 
+		console_logger& console_logger::global_logger() noexcept {
+			static console_logger global_instance(1);
+			return global_instance;
+		}
+
 		file_logger::file_logger(u32 _threads_count, const string_type& _filepath) noexcept :
 			logger(_threads_count),
 			m_file(_filepath, platform::file::access_mode::Write) {

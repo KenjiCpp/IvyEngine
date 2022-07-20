@@ -69,6 +69,14 @@ namespace ivy {
 		set<T> set_symmetric_difference(const set<T>& _set1, const set<T>& _set2) noexcept;
 
 	} // namespace utility
+
+	using utility::set;
+
+	using utility::set_union;
+	using utility::set_intersection;
+	using utility::set_difference;
+	using utility::set_symmetric_difference;
+
 } // namespace ivy
 
 #include "../impl/utility/set.inl"

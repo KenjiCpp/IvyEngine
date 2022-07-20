@@ -87,6 +87,9 @@ namespace ivy {
 		};
 
 	} // namespace utility
+	
+	using utility::map;
+
 } // namespace ivy
 
 #include "../impl/utility/map.inl"

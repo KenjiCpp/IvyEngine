@@ -61,7 +61,7 @@ namespace ivy {
 		struct pointer_formatter : string_formatter, digit_formatter {
 			IVY_API b8 parse(const format_context& _ctx) noexcept;
 
-			IVY_API string_type format(ptr _value) const noexcept;
+			IVY_API string_type format(cptr _value) const noexcept;
 		};
 
 		struct signed_integer_formatter : string_formatter, digit_formatter {
@@ -193,6 +193,11 @@ namespace ivy {
 		template<typename KeyT, typename T> struct formatter<map<KeyT, T>> : map_formatter<KeyT, T> { };
 
 	} // namespace utility
+
+	using utility::find_format_context;
+
+	using utility::formatter;
+
 } // namespace ivy
 
 #include "../impl/utility/formatter.inl"

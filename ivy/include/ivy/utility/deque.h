@@ -143,6 +143,9 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::deque;
+
 } // namespace ivy
 
 #include "../impl/utility/deque.inl"

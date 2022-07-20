@@ -156,6 +156,13 @@ namespace ivy {
 			array<u32> find_all(const string& _string) const noexcept;
 			array<u32> find_all(const view& _view) const noexcept;
 
+			static i32 compare(const string& _string0, const string& _string1) noexcept;
+			static i32 compare(const string& _string0, const view& _string1) noexcept;
+			static i32 compare(const string& _string0, const character_type* _string1) noexcept;
+			static i32 compare(const view& _string0, const string& _string1) noexcept;
+			static i32 compare(const view& _string0, const view& _string1) noexcept;
+			static i32 compare(const view& _string0, const character_type* _string1) noexcept;
+
 		private:
 			b8 expand_front() noexcept;
 			b8 expand_back() noexcept;
@@ -163,6 +170,7 @@ namespace ivy {
 			b8 expand_to_fit_back(u32 _desired_length) noexcept;
 
 			static u32 cstr_len(const character_type* _cstr) noexcept;
+			static i32 cstr_cmp(const character_type* _cstr0, const character_type* _cstr1, u32 _length = npos) noexcept;
 
 		private:
 			character_type* m_data;
@@ -171,11 +179,94 @@ namespace ivy {
 			u32				m_capacity;
 		};
 
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const string<T>& _string1) noexcept;
+
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept;
+
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const T* _string1) noexcept;
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept;
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept;
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const T* _string1) noexcept;
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const T* _string1) noexcept;
+
 		typedef string<c8>  string8;
 		typedef string<c16> string16;
 		typedef string<c32> string32;
 
 	} // namespace strings
+
+	using utility::string8;
+	using utility::string16;
+	using utility::string32;
+
 } // namespace ivy
 
 #include "../impl/utility/string.inl"

@@ -293,10 +293,10 @@ namespace ivy {
 			return (it == _ctx.end());
 		}
 
-		string_type pointer_formatter::format(ptr _value) const noexcept {
+		string_type pointer_formatter::format(cptr _value) const noexcept {
 			string_type res;
 			
-			u32 len = 2 * sizeof(ptr);
+			u32 len = 2 * sizeof(cptr);
 			u32 val = *(u32*)&_value;
 
 			while (len--) {

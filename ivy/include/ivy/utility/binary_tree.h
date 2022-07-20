@@ -149,6 +149,9 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::binary_tree;
+
 } // namespace ivy
 
 #include "../impl/utility/binary_tree.inl"

@@ -12,8 +12,9 @@ namespace ivy {
 	namespace platform {
 
 		struct window_state {
-			HWND handle;
-			// VkSurfaceKHR surface;
+			HWND      handle;
+			HINSTANCE instance;
+			ptr       graphics;
 		};
 
 		struct window_user_data {
@@ -456,6 +457,8 @@ namespace ivy {
 					return;
 				}
 
+				((window_state*)m_state)->instance = window_class_instance;
+
 				POINT p;
 				GetCursorPos(&p);
 				ScreenToClient(((window_state*)m_state)->handle, &p);
@@ -551,6 +554,18 @@ namespace ivy {
 			}
 
 			return false;
+		}
+
+		ptr& window::graphics_data() noexcept {
+			return ((window_state*)m_state)->graphics;
+		}
+
+		const ptr& window::graphics_data() const noexcept {
+			return ((window_state*)m_state)->graphics;
+		}
+
+		ptr window::state() noexcept {
+			return m_state;
 		}
 
 	} // namespace platform

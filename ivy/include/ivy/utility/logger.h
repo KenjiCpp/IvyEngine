@@ -6,6 +6,19 @@
 #include "platform/console.h"
 #include "platform/filesystem.h"
 
+#define IVY_FATAL(...) ivy::console_logger::global_logger().log(ivy::log_level::Fatal, __VA_ARGS__)
+#define IVY_ERROR(...) ivy::console_logger::global_logger().log(ivy::log_level::Error, __VA_ARGS__)
+#define IVY_WARN(...)  ivy::console_logger::global_logger().log(ivy::log_level::Warn, __VA_ARGS__)
+#define IVY_INFO(...)  ivy::console_logger::global_logger().log(ivy::log_level::Info, __VA_ARGS__)
+
+#if defined(DEBUG)
+	#define IVY_DEBUG(...)  ivy::console_logger::global_logger().log(ivy::log_level::Debug, __VA_ARGS__)
+	#define IVY_TRACE(...)  ivy::console_logger::global_logger().log(ivy::log_level::Trace, __VA_ARGS__)
+#else
+	#define IVY_DEBUG(...)
+	#define IVY_TRACE(...)
+#endif
+
 namespace ivy {
 	namespace utility {
 
@@ -44,6 +57,8 @@ namespace ivy {
 			IVY_API ~console_logger() noexcept;
 
 			IVY_API b8 write(log_level _level, const string_type& _string) noexcept;
+
+			IVY_API static console_logger& global_logger() noexcept;
 		};
 
 		class file_logger : public logger {
@@ -61,6 +76,9 @@ namespace ivy {
 	} // namespace utility
 
 	typedef utility::logger::log_level log_level;
+
+	using utility::console_logger;
+	using utility::file_logger;
 
 } // namespace ivy
 

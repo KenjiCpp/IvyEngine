@@ -56,6 +56,11 @@ template<typename... Args> using tuple = std::tuple<Args...>;
 
 template<typename F, typename... Args> using function = std::function<F(Args...)>;
 
+typedef std::plus<>       plus;
+typedef std::minus<>      minus;
+typedef std::multiplies<> multiplies;
+typedef std::divides<>    divides;
+typedef std::negate<>     negate;
 
 // Type traits
 

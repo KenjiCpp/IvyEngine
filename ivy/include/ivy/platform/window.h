@@ -67,9 +67,14 @@ namespace ivy {
 			b8 close() noexcept;
 
 			b8 pump_messages() const noexcept;
+
+			ptr& graphics_data() noexcept;
+			const ptr& graphics_data() const noexcept;
 			
 			template<typename EventT>
 			b8 post_event(EventT& _event) noexcept;
+
+			ptr state() noexcept;
 
 		private:
 			ptr               m_state;
@@ -80,6 +85,8 @@ namespace ivy {
 		};
 
 	} // namespace platform
+
+	using platform::window;
 
 	using platform::window_event;
 	using platform::window_close_event;

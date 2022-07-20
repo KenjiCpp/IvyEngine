@@ -17,4 +17,7 @@ namespace ivy {
 		};
 
 	} // namespace platform
+
+	using platform::clock;
+
 } // namespace ivy

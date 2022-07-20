@@ -9,6 +9,9 @@ namespace ivy {
 		string_type format(const template_type& _template, Args&&... _args) noexcept;
 
 	} // namespace utility
+
+	using utility::format;
+
 } // namespace ivy
 
 #include "../impl/utility/format.inl"

@@ -35,6 +35,12 @@ namespace ivy {
 		//};
 
 	} // namespace utility
+
+	using utility::uint8_id_generator;
+	using utility::uint16_id_generator;
+	using utility::uint32_id_generator;
+	using utility::uint64_id_generator;
+
 } // namespace ivy
 
 #include "impl/utility/id_generator.inl"

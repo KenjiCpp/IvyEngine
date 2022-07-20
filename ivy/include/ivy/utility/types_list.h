@@ -13,4 +13,7 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::types_list;
+
 } // namespace ivy

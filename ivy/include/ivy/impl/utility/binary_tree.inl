@@ -241,7 +241,6 @@ namespace ivy {
 				if (y_right) {
 					y_right->parent = y_parent;
 				}
-
 			}
 
 			original_node->parent = nullptr;
@@ -530,7 +529,9 @@ namespace ivy {
 				return false;
 			}
 
-			node_fix_remove(remove_node);
+			if (m_root) {
+				node_fix_remove(remove_node);
+			}
 
 			return true;
 		}

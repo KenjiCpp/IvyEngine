@@ -86,6 +86,9 @@ namespace ivy {
 		};
 
 	} // namespace utility
+
+	using utility::array;
+
 } // namespace ivy
 
 #include "../impl/utility/array.inl"

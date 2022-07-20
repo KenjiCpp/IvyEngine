@@ -43,6 +43,9 @@ namespace ivy {
 
 	using utility::null;
 
+	using utility::null_type;
+	using utility::nullable;
+
 } // namespace ivy
 
 #include "../impl/utility/nullable.inl"

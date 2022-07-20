@@ -42,4 +42,7 @@ namespace ivy {
 		};
 
 	} // namespace platform
+
+	using platform::console;
+
 } // namespace ivy

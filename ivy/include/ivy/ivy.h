@@ -2,6 +2,8 @@
 
 #include "../../global.h"
 
+#include "graphics/graphics_frontend.h"
+
 #include "math/scalar.h"
 #include "math/vector.h"
 

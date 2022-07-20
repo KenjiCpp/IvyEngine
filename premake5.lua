@@ -4,12 +4,17 @@ workspace "Ivy"
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
+		symbols "On"
 	filter "configurations:Release"
 		defines { "NDEBUG" }
+		optimize "On"
+	filter { }
+	
 	filter "platforms:x64"
 		system       "Windows"
         architecture "x86_64"
-		
+	filter { }	
+	
 	startproject "sandbox"
 
 project "ivy"
@@ -21,8 +26,9 @@ project "ivy"
 	defines { "_DLL_BUILD" }
 	files { "ivy/**.h", "ivy/**.cpp", "ivy/**.inl" }
 	
-	includedirs { "$(ProjectDir)include/ivy", "$(ProjectDir)" }
-	
+	includedirs { "$(ProjectDir)include/ivy", "$(ProjectDir)", "$(VULKAN_SDK)/include" }
+	links { "$(VULKAN_SDK)/lib/vulkan-1.lib" }
+
 	targetdir "$(SolutionDir)bin/$(Configuration)-$(Platform)"
 	objdir    "!$(SolutionDir)int/$(Configuration)-$(Platform)"
 	

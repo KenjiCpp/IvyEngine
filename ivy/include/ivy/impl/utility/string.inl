@@ -1002,6 +1002,36 @@ namespace ivy {
 		}
 
 		template<typename T>
+		i32 string<T>::compare(const string& _string0, const string& _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1.cstr());
+		}
+
+		template<typename T>
+		i32 string<T>::compare(const string& _string0, const view& _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1.cstr(), _string1.length());
+		}
+
+		template<typename T>
+		i32 string<T>::compare(const string& _string0, const character_type* _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1);
+		}
+
+		template<typename T>
+		i32 string<T>::compare(const view& _string0, const string& _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1.cstr(), _string0.length());
+		}
+
+		template<typename T>
+		i32 string<T>::compare(const view& _string0, const view& _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1.cstr(), std::min(_string0.length(), _string1.length()));
+		}
+
+		template<typename T>
+		i32 string<T>::compare(const view& _string0, const character_type* _string1) noexcept {
+			return cstr_cmp(_string0.cstr(), _string1, _string0.length());
+		}
+
+		template<typename T>
 		b8 string<T>::expand_front() noexcept {
 			u32 new_capacity = m_capacity * EXPAND_FACTOR + 1;
 			character_type* new_data = (character_type*)platform::memory::allocate((new_capacity + 1) * sizeof(character_type));
@@ -1127,6 +1157,14 @@ namespace ivy {
 		}
 
 		template<typename T>
+		i32 string<T>::cstr_cmp(const character_type* _cstr0, const character_type* _cstr1, u32 _length) noexcept {
+			const u8* p1 = (const u8*)_cstr0;
+			const u8* p2 = (const u8*)_cstr1;
+			while (_length-- && *p1 && *p1 == *p2) ++p1, ++p2;
+			return (*p1 > *p2) - (*p2 > *p1);
+		}
+
+		template<typename T>
 		string<T>::view::view() noexcept :
 			m_cstr(empty_string<T>::value),
 			m_length(0) {
@@ -1246,6 +1284,189 @@ namespace ivy {
 			const character_type* s = _cstr;
 			for (; *s; ++s);
 			return s - _cstr;
+		}
+
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
+		}
+
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
+		}
+
+		template<typename T>
+		b8 operator==(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const string<T>& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
+		}
+
+
+
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const string<T>& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
+		}
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const typename string<T>::view& _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
+		}
+
+		template<typename T>
+		b8 operator==(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) == 0);
+		}
+
+		template<typename T>
+		b8 operator!=(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) != 0);
+		}
+
+		template<typename T>
+		b8 operator>(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) > 0);
+		}
+
+		template<typename T>
+		b8 operator<(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) < 0);
+		}
+
+		template<typename T>
+		b8 operator>=(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) >= 0);
+		}
+
+		template<typename T>
+		b8 operator<=(const typename string<T>::view& _string0, const T* _string1) noexcept {
+			return (string<T>::compare(_string0, _string1) <= 0);
 		}
 
 	} // namespace strings

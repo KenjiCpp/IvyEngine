@@ -50,4 +50,7 @@ namespace ivy {
 		template<> struct formatter<byte_buffer> : byte_buffer_formatter { };
 
 	} // namespace utility
+
+	using utility::byte_buffer;
+
 } // namespace ivy
