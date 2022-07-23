@@ -1,6 +1,9 @@
 #include "graphics/vulkan/vulkan_graphics_backend.h"
 #include "graphics/vulkan/vulkan_platform.h"
 #include "graphics/vulkan/vulkan_context.h"
+#include "graphics/vulkan/vulkan_renderpass.h"
+#include "graphics/vulkan/vulkan_command_buffer.h"
+#include "graphics/vulkan/vulkan_framebuffer.h"
 
 #include "utility/logger.h"
 
@@ -30,6 +33,44 @@ namespace ivy {
 			return VK_FALSE;
 		}
 
+		b8 create_graphics_command_buffers() noexcept {
+			if (context.graphics_command_buffers.empty()) {
+				context.graphics_command_buffers.reserve(context.swapchain.image_count);
+				vulkan_command_buffer default_buffer = { };
+				for (u32 i = 0; i < context.swapchain.image_count; ++i) {
+					context.graphics_command_buffers.push_back(default_buffer);
+				}
+			}
+
+			for (u32 i = 0; i < context.swapchain.image_count; ++i) {
+				if (context.graphics_command_buffers[i].handle) {
+					context.graphics_command_buffers[i].free(context, context.device.graphics_command_pool);
+					context.graphics_command_buffers[i] = { };
+					context.graphics_command_buffers[i].allocate(context, context.device.graphics_command_pool, true);
+				}
+			}
+
+			return true;
+		}
+
+		b8 regenerate_framebuffers(vulkan_swapchain& _swapchain, vulkan_renderpass& _renderpass) noexcept {
+			if (context.swapchain.framebuffers.empty()) {
+				vulkan_framebuffer default_buffer = { };
+				for (u32 i = 0; i < _swapchain.image_count; ++i) {
+					context.swapchain.framebuffers.push_back(default_buffer);
+				}
+			}
+
+			for (u32 i = 0; i < _swapchain.image_count; ++i) {
+				u32 attachment_count = 2;
+				VkImageView attachments[] = { _swapchain.views[i], _swapchain.depth_attachment.view };
+
+				context.swapchain.framebuffers[i].initialize(context, _renderpass, context.framebuffer_width, context.framebuffer_height, attachment_count, attachments);
+			}
+
+			return true;
+		}
+
 		vulkan_graphics_backend::vulkan_graphics_backend(const vulkan_graphics_backend_configuration& _config) noexcept :
 			graphics_backend(graphics_backend_framework::Vulkan),
 			m_config(_config) {
@@ -39,7 +80,9 @@ namespace ivy {
 			// TODO: custom allocator
 			context.allocator = 0;
 
-			// Setup Vulkan instance
+			context.framebuffer_width  = _window.width();
+			context.framebuffer_height = _window.height();
+
 			VkApplicationInfo app_info = { VK_STRUCTURE_TYPE_APPLICATION_INFO };
 			app_info.apiVersion         = VK_API_VERSION_1_3;
 			app_info.pApplicationName   = m_config.application_name;
@@ -125,12 +168,46 @@ namespace ivy {
 			}
 			IVY_DEBUG("Vulkan device initialized");
 
+			if (!context.swapchain.initialize(context, context.framebuffer_width, context.framebuffer_height, false)) {
+				return false;
+			}
+			IVY_DEBUG("Vulkan swapchain initialized");
+
+			if (!context.main_renderpass.initialize(context, rectangle_f(0.0f, 0.0f, context.framebuffer_width, context.framebuffer_height), vector4_f(0.0f, 0.0f, 0.2f, 1.0f), 1.0f, 0)) {
+				return false;
+			}
+			IVY_DEBUG("Vulkan main renderpass initialized");
+
+			if (!regenerate_framebuffers(context.swapchain, context.main_renderpass)) {
+				return false;
+			}
+			IVY_DEBUG("Vulkan swapchain's framebuffers initialized");
+
+			if (!create_graphics_command_buffers()) {
+				return false;
+			}
+			IVY_DEBUG("Vulkan graphics command buffers initialized");
+
 			return true;
 		}
 
 		b8 vulkan_graphics_backend::terminate(window& _window) noexcept {
-			vulkan_device_terminate(context);
+			for (u32 i = 0; i < context.swapchain.image_count; ++i) {
+				if (context.graphics_command_buffers[i].handle) {
+					context.graphics_command_buffers[i].free(context, context.device.graphics_command_pool);
+					context.graphics_command_buffers[i].handle = 0;
+				}
+			}
+			context.graphics_command_buffers.~array();
 
+			for (u32 i = 0; i < context.swapchain.image_count; ++i) {
+				context.swapchain.framebuffers[i].terminate(context);
+			}
+			context.swapchain.framebuffers.~array();
+
+			context.main_renderpass.terminate(context);
+			context.swapchain.terminate(context);
+			vulkan_device_terminate(context);
 			vulkan_platform_remove_surface(context, _window);
 
 #if defined(_DEBUG)

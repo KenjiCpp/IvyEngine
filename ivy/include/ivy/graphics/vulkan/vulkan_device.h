@@ -10,6 +10,8 @@ namespace ivy {
 		struct vulkan_context;
 
 		struct vulkan_device {
+			b8 detect_depth_format() noexcept;
+
 			VkPhysicalDevice                 physical_device;
 			VkDevice                         logical_device;
 			vulkan_swapchain_support_info    swapchain_support;
@@ -24,6 +26,8 @@ namespace ivy {
 			VkQueue							 present_queue;
 			VkQueue							 transfer_queue;
 			VkCommandPool                    graphics_command_pool;
+			VkFormat                         depth_format;
+			u8                               depth_channel_count;
 		};
 		
 		b8 vulkan_device_initialize(vulkan_context& _ctx) noexcept;

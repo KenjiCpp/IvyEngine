@@ -27,6 +27,31 @@ namespace ivy {
 			u32 transfer_family_index;
 		};
 
+		b8 vulkan_device::detect_depth_format() noexcept {
+			const u64 candidate_count = 3;
+			VkFormat  candidates[3]   = { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT };
+			u8        sizes[3]        = { 4, 4, 3 };
+
+			u32 flags = VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT;
+			for (u64 i = 0; i < candidate_count; ++i) {
+				VkFormatProperties properties;
+				vkGetPhysicalDeviceFormatProperties(physical_device, candidates[i], &properties);
+
+				if ((properties.linearTilingFeatures & flags) == flags) {
+					depth_format        = candidates[i];
+					depth_channel_count = sizes[i];
+					return true;
+				}
+				else if ((properties.optimalTilingFeatures & flags) == flags) {
+					depth_format        = candidates[i];
+					depth_channel_count = sizes[i];
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		b8 physical_device_meets_requirements(VkPhysicalDevice _device, VkSurfaceKHR _surface, const VkPhysicalDeviceProperties& _properties, const VkPhysicalDeviceFeatures _features, const vulkan_physical_device_requirements& _requirements, vulkan_physical_device_queue_family_info& _queue_info, vulkan_swapchain_support_info& _swapchain_support) noexcept {
 			_queue_info.graphics_family_index = -1;
 			_queue_info.present_family_index  = -1;

@@ -64,6 +64,9 @@ namespace ivy {
 			b8 is_valid() const noexcept;
 			b8 is_open() const noexcept;
 
+			i32 width() const noexcept;
+			i32 height() const noexcept;
+
 			b8 close() noexcept;
 
 			b8 pump_messages() const noexcept;

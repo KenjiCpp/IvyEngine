@@ -537,6 +537,16 @@ namespace ivy {
 			return m_is_open;
 		}
 
+		i32 window::width() const noexcept {
+			window_user_data* user_data = (window_user_data*)GetWindowLongPtrA(((window_state*)m_state)->handle, GWLP_USERDATA);
+			return user_data->new_size.x;
+		}
+
+		i32 window::height() const noexcept {
+			window_user_data* user_data = (window_user_data*)GetWindowLongPtrA(((window_state*)m_state)->handle, GWLP_USERDATA);
+			return user_data->new_size.y;
+		}
+
 		b8 window::close() noexcept {
 			m_is_open = false;
 			return true;
